@@ -1,59 +1,13 @@
 ---
 name: update-task
-description: Use when changing task status (in_progress, blocked, review, completed, cancelled), adding notes to a task, or marking a task as blocked with a reason — handles cascade updates to all index files
+description: Internal plumbing for cascade status updates — not user-invoked. Called by the orchestrator (work-task) and other skills to keep all index files in sync when task status changes.
 ---
 
-# Update Task
+# Update Task (Internal)
 
-Change task status and add context during or after work sessions. This is the most frequently used workflow skill — it should be fast and minimal.
+**This is internal plumbing, not a user-facing skill.** It is called by the `work-task` orchestrator and `update-roadmap` skill to maintain cross-file consistency when task statuses change. If the user asks Claude to change a task's status directly, Claude uses this logic but the user doesn't invoke it as a command.
 
-## When to Use
-
-- Picking up a task to work on (→ `in_progress`)
-- Task is blocked by something (→ `blocked`)
-- Work is done, needs verification (→ `review`)
-- Task verified and complete (→ `completed`)
-- Task no longer needed (→ `cancelled`)
-- Adding notes or context to a task file
-
-## Input
-
-The user will say something like:
-- "mark auth-task002 as completed"
-- "auth-task003 is blocked, waiting on API keys"
-- "pick up payments-task001"
-- "add a note to auth-task002: decided to use JWT instead of sessions"
-
-Parse the intent:
-- **Task ID** — extract from the message (e.g., `auth-task002`)
-- **Action** — status change or note addition
-- **Detail** — blockedBy reason, note content, etc.
-
-## Validation
-
-1. Verify `.claude/roadmap/` exists. If not: "No roadmap found. Run `/setup-roadmap` first."
-2. Locate the task file by ID:
-   - Task ID format is `<milestone>-task<NNN>`
-   - File lives at `.claude/roadmap/<milestone>/<task-id>.md`
-   - If not found: "Task `<id>` not found. Check the ID in TASK.md."
-3. Read the task file's current frontmatter to get current status.
-
-## Status Transitions
-
-Valid transitions:
-
-| From | To |
-|------|-----|
-| `pending` | `in_progress`, `cancelled` |
-| `in_progress` | `blocked`, `review`, `cancelled` |
-| `blocked` | `in_progress`, `cancelled` |
-| `review` | `completed`, `in_progress` (if review failed) |
-| `completed` | (terminal — no transitions out) |
-| `cancelled` | `pending` (if reactivated) |
-
-If the requested transition is not in this table, inform the user: "Can't move from `<current>` to `<requested>`. Valid next statuses: `<list>`."
-
-## Cascade Update
+## Cascade Update Logic
 
 When a task status changes, update ALL of these files in order:
 
@@ -82,27 +36,29 @@ When a task status changes, update ALL of these files in order:
 - Update Status column to match milestone's current status
 - Update Progress column (count completed+cancelled / total tasks)
 
+## Status Transitions
+
+Valid transitions:
+
+| From | To |
+|------|-----|
+| `pending` | `in_progress`, `cancelled` |
+| `in_progress` | `blocked`, `review`, `cancelled` |
+| `blocked` | `in_progress`, `cancelled` |
+| `review` | `completed`, `in_progress` (if review failed) |
+| `completed` | (terminal — no transitions out) |
+| `cancelled` | `pending` (if reactivated) |
+
+If a requested transition is invalid, report the error to the calling skill.
+
+## Task Location
+
+Task ID format is `<milestone>-task<NNN>`. File lives at `.claude/roadmap/<milestone>/<task-id>.md`.
+
 ## Adding Notes
 
-If the user is adding a note (not changing status):
+If adding a note (not changing status):
 1. Read the task file
-2. Append the note to the Notes section with today's date
+2. Append the note to the end of the file with today's date
 3. Update `updated` date in frontmatter
 4. No cascade needed — notes don't affect status
-
-## Completion
-
-After updating, report concisely:
-
-For status changes:
-> `auth-task002` → **completed** (was: in_progress)
-> Milestone `auth`: in_progress (2/3 tasks done)
-
-For blocked:
-> `auth-task003` → **blocked**: waiting on API keys
-> Milestone `auth`: in_progress (1 blocked, 1 in_progress, 1 completed)
-
-For notes:
-> Note added to `auth-task002`.
-
-Do NOT summarize what the task is about or restate the acceptance criteria. Keep it to status and impact.
