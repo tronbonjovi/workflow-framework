@@ -17,14 +17,28 @@ The primary execution interface. Reads the task graph, presents current state, r
 
 ## Step 1: Assess State
 
-Read the roadmap files to build a complete picture:
+Scope reads to the active milestone only — don't load the entire roadmap into context.
 
-1. Read `.claude/roadmap/ROADMAP.md` — project status, milestone list
-2. Read `.claude/roadmap/MILESTONE.md` — milestone statuses, task membership
-3. Read `.claude/roadmap/TASK.md` — phase ordering, dependencies, parallelism notes, batching notes
+### Guards
 
-Determine:
-- Current active milestone(s) and progress
+1. If `.claude/roadmap/` directory doesn't exist → stop and say: **"No roadmap found. Run `/setup-roadmap` to get started."**
+2. Read `.claude/roadmap/ROADMAP.md` — look at the milestone overview table only.
+   - If the milestone table is empty (no milestone rows) → stop and say: **"Roadmap initialized but empty. Run `/build-roadmap` to define milestones."**
+
+### Identify Active Milestone
+
+3. From the ROADMAP.md milestone table, find the **first milestone** with status `in_progress`. If none are in-progress, use the **first milestone** with status `pending`. This is the **active milestone**.
+4. Note the active milestone's ID (e.g., `milestone-01`).
+
+### Scoped Reads
+
+5. Read `.claude/roadmap/MILESTONE.md` — read **only the active milestone's section**. Skip all other milestone sections (especially completed/cancelled ones).
+6. Read `.claude/roadmap/TASK.md` — read **only task rows belonging to the active milestone**. Skip rows for other milestones.
+
+### Determine
+
+From the scoped data:
+- Active milestone and its progress
 - Tasks that are `completed`, `in_progress`, `blocked`
 - Tasks that are `pending` with all dependencies met (ready to work)
 - Phase ordering — what phase are we in?
