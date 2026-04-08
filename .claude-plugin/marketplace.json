@@ -8,7 +8,7 @@
     {
       "name": "claude-workflow",
       "description": "File-based development workflow: roadmaps, milestones, and task contracts for structured project execution",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "source": "./",
       "author": {
         "name": "tronbonjovi"

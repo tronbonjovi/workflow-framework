@@ -1,6 +1,6 @@
 {
   "name": "claude-workflow",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "type": "module",
   "description": "File-based development workflow system for Claude Code — roadmaps, milestones, and task contracts",
   "author": "tronbonjovi",

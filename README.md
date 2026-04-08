@@ -25,8 +25,9 @@ The plugin creates a `.claude/roadmap/` directory in your project with:
 ```
 .claude/roadmap/
 ├── ROADMAP.md                          # Big picture: vision, goals, milestone overview
-├── MILESTONE.md                        # Index of all milestones with derived status
+├── MILESTONE.md                        # Index of active milestones with derived status
 ├── TASK.md                             # Battle plan: execution order, phases, parallelism
+├── ARCHIVE.md                          # Completed/cancelled milestones (auto-created)
 ├── drafts/                             # Brainstorm notes (input for build-roadmap)
 ├── <milestone-name>/
 │   ├── <milestone-name>-task001.md     # Task contract
@@ -37,15 +38,14 @@ The plugin creates a `.claude/roadmap/` directory in your project with:
 
 ### Task Contracts
 
-Tasks are contracts designed for Claude Code subagents to execute autonomously. Each contract contains:
+Tasks are contracts designed for Claude Code subagents to execute autonomously. Standard contracts contain:
 
-- **Context** — Why this task exists and how it fits the milestone
 - **Objective** — What the subagent should deliver
 - **Instructions** — Step-by-step implementation guidance
-- **Files to touch** — Exactly which files to create or modify
 - **Tests** — What tests to write and what they should verify
 - **Acceptance criteria** — How to know the task is done
-- **Scope boundaries** — What's in scope and explicitly out of scope
+
+Complex contracts add: Context, Technical Approach, Scope boundaries, and Risk Notes.
 
 ### Execution Model
 

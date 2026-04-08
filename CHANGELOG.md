@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-04-07
+
+### Added
+- Archive system — completed/cancelled milestones automatically move from active indexes (MILESTONE.md, TASK.md) into ARCHIVE.md, keeping active files proportional to current work
+- Reactivate Milestone operation in `update-roadmap` — moves archived milestones back to active status
+- Scoped reads in `work-task` — identifies active milestone from ROADMAP.md first, then reads only that milestone's data instead of loading everything
+- Prior Work Brief capped at 3 most recent completed sibling tasks instead of reading all
+- Error guards in `work-task` — missing roadmap directory, empty milestone table, and missing task contract files all produce actionable warnings instead of failing silently
+- `status` skill shows archived milestones as compact one-line summaries in a "Completed" section
+
+### Changed
+- Standard task contract template trimmed — removed Context and Scope sections (kept in complex template). Standard contracts now have 4 sections: Objective, Instructions, Tests, Acceptance Criteria
+- `build-roadmap` prompt distinguishes standard vs complex section lists when creating task contracts
+- Removed static boilerplate from TASK.md and MILESTONE.md templates (status legend, explanatory comments)
+
 ## [0.2.1] - 2026-04-07
 
 ### Added
