@@ -1,0 +1,17 @@
+{
+  "name": "claude-workflow",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "File-based development workflow system for Claude Code — roadmaps, milestones, and task contracts",
+  "author": "tronbonjovi",
+  "license": "MIT",
+  "repository": "https://github.com/tronbonjovi/claude-workflow",
+  "keywords": [
+    "skills",
+    "workflow",
+    "roadmap",
+    "milestones",
+    "tasks",
+    "project-management"
+  ]
+}
