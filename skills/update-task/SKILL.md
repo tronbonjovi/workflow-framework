@@ -38,28 +38,64 @@ When a task status changes, update ALL of these files in order:
 When a milestone reaches terminal status:
 
 #### 4a. Ensure ARCHIVE.md exists
-- If `.claude/roadmap/ARCHIVE.md` does not exist, create it with:
-  ```
-  # Archived Milestones
-
-  > Updated: <today's date>
-  ```
+- If `.claude/roadmap/ARCHIVE.md` does not exist, create it with the initial structure shown in the ARCHIVE.md Format section below.
 
 #### 4b. Move milestone section from MILESTONE.md to ARCHIVE.md
 - Copy the milestone's full section (heading + all bullet points) from MILESTONE.md
-- Append it to ARCHIVE.md under a `## Archived` heading (create this heading if it doesn't exist)
+- Append it under the `## Archived Milestones` heading in ARCHIVE.md (create this heading if it doesn't exist)
 - Remove the milestone section from MILESTONE.md (from its `###` heading through the last bullet before the next `###` or end of section)
 - The milestone should be removed from whichever group it was in (`## Active Milestones` or `## Completed Milestones`)
 
 #### 4c. Move task rows from TASK.md to ARCHIVE.md
 - Find all task rows belonging to this milestone in TASK.md (match on the Milestone column)
-- Identify which Phase section they belong to (e.g., `## Phase 1: Archive Foundation`)
-- In ARCHIVE.md, create a phase heading if it doesn't exist, then append the task rows under it with the same table header
+- Append them under the `## Archived Tasks` heading in ARCHIVE.md, grouped under a `### <milestone-name>` subheading with the standard task table header
+- If a subheading for that milestone already exists, append rows to the existing table
 - Remove the task rows from TASK.md
 - If removing all rows from a phase section in TASK.md leaves it with only the table header and no data rows, remove the entire phase section
 
 #### 4d. Update ARCHIVE.md date
 - Update the `> Updated:` date line in ARCHIVE.md to today's date
+
+### ARCHIVE.md Format
+
+The archive file uses this structure:
+
+```markdown
+# Archive
+
+> Updated: YYYY-MM-DD
+
+## Archived Milestones
+
+### <milestone-name>
+- **Status:** completed | cancelled
+- **Description:** <original description>
+- **Tasks:** <original task list>
+<any other bullet points from the original MILESTONE.md section>
+
+### <another-milestone>
+...
+
+## Archived Tasks
+
+### <milestone-name>
+
+| ID | Title | Complexity | Status | Parallel-Safe |
+|----|-------|-----------|--------|---------------|
+| milestone-task001 | Task title | standard | completed | yes |
+| milestone-task002 | Task title | standard | cancelled | yes |
+
+### <another-milestone>
+
+| ID | Title | Complexity | Status | Parallel-Safe |
+|----|-------|-----------|--------|---------------|
+| ...rows... |
+```
+
+Key rules:
+- Each archived milestone preserves its full section as it appeared in MILESTONE.md
+- Task rows are grouped by milestone name under `## Archived Tasks`, not by phase
+- The `> Updated:` date reflects the last time the archive was modified
 
 #### What is NOT archived
 - The milestone row in ROADMAP.md stays — it serves as a table of contents

@@ -14,12 +14,13 @@ Modify the roadmap structure after brainstorming revisions, scope changes, new f
 - Cancelling a milestone or set of tasks
 - Reordering phases or changing parallelism groups
 - After a brainstorming session that changes project direction
+- Reactivating a cancelled milestone from the archive
 - Adjusting milestone scope (splitting, combining, renaming)
 
 ## Pre-Check
 
 1. Verify `.claude/roadmap/` exists with ROADMAP.md, MILESTONE.md, and TASK.md. If not: "No roadmap found. Run `/setup-roadmap` first."
-2. Read current state: ROADMAP.md, MILESTONE.md, TASK.md to understand existing structure.
+2. Read current state: ROADMAP.md, MILESTONE.md, TASK.md, and ARCHIVE.md (if it exists) to understand existing structure.
 3. If new drafts exist in `.claude/roadmap/drafts/` that haven't been referenced in ROADMAP.md `sources:`, mention them: "I see new drafts that aren't part of the current roadmap: <list>. Should I incorporate them?"
 
 ## Operations
@@ -75,6 +76,32 @@ Parse the user's request and determine which operation(s) are needed:
 3. Update TASK.md phase sections, moving task rows as needed.
 4. Update `phase` field in affected individual task files.
 
+### Reactivate Milestone
+
+Moves a previously cancelled milestone from ARCHIVE.md back into the active indexes.
+
+1. Read ARCHIVE.md and present the list of archived milestones to the user. If ARCHIVE.md does not exist or has no archived milestones, inform the user: "No archived milestones found."
+2. Confirm with the user: "Reactivate milestone **<name>**? This moves it back to active status as `pending`."
+3. Move the milestone section from ARCHIVE.md `## Archived Milestones` back into MILESTONE.md:
+   - Insert under `## Active Milestones`
+   - Set status to `pending`
+   - Preserve all other fields (description, task list, etc.)
+4. Move the milestone's task rows from ARCHIVE.md `## Archived Tasks > ### <milestone-name>` back into TASK.md:
+   - Place rows into the appropriate phase section (ask user which phase if unclear)
+   - Set all task statuses to `pending`
+   - If the target phase section doesn't exist in TASK.md, create it with the standard table header
+5. Update individual task files on disk: set `status: pending` and `updated:` to today in frontmatter
+6. Update ROADMAP.md:
+   - Set milestone status to `pending`
+   - Update progress column to reflect all tasks as `pending`
+7. Remove the reactivated entries from ARCHIVE.md:
+   - Remove the milestone section from `## Archived Milestones`
+   - Remove the milestone's task group from `## Archived Tasks`
+   - If `## Archived Milestones` or `## Archived Tasks` has no remaining content, remove those headings
+   - If ARCHIVE.md is now empty (only the `# Archive` header and date remain), delete the file
+   - Otherwise, update the `> Updated:` date
+8. Inform user: "Milestone **<name>** reactivated with <N> tasks set to `pending`."
+
 ### Override Milestone Status
 
 1. Confirm the milestone and desired status override.
@@ -90,5 +117,8 @@ After every operation, verify:
 - ROADMAP.md milestone list matches MILESTONE.md sections
 - Progress counts in ROADMAP.md match actual task statuses
 - Task files follow naming convention: `<milestone-name>-task<NNN>.md`
+
+- No milestone appears in both MILESTONE.md and ARCHIVE.md simultaneously
+- No task row appears in both TASK.md and ARCHIVE.md simultaneously
 
 If any inconsistency is found, fix it and inform the user.

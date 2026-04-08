@@ -60,14 +60,25 @@ For each confirmed milestone, propose tasks. Remember: these are **execution con
 >
 > Does this task list cover what's needed for this milestone?"
 
-After the user confirms the task list for a milestone, write out the full contract for each task. For each task, present:
-- Context (why this task exists, what it builds on)
+After the user confirms the task list for a milestone, write out the full contract for each task. The sections depend on the task's complexity:
+
+**Standard-complexity tasks** — write these sections:
 - Objective (specific outcome)
 - Instructions (step-by-step: what to create, what to modify, what patterns to follow)
 - Tests (specific test cases — TDD style)
 - Acceptance criteria (verifiable checklist)
+
+**Complex-complexity tasks** — write these sections:
+- Context (why this task exists, what it builds on)
+- Objective (specific outcome)
+- Technical approach (architecture decisions, patterns to use)
+- Instructions (step-by-step: what to create, what to modify, what patterns to follow)
+- Tests (specific test cases — TDD style)
+- Acceptance criteria (verifiable checklist)
 - Scope (in/out boundaries)
-- Technical approach and risk notes (if complex)
+- Risk notes (what could go wrong, edge cases)
+
+For all tasks, also specify:
 - Files to touch (explicit list)
 - Whether it's parallel-safe (can it run alongside other tasks in the same phase?)
 

@@ -15,10 +15,6 @@ filesTouch: {{FILES_TO_TOUCH}}
 
 # {{TASK_TITLE}}
 
-## Context
-
-{{CONTEXT}}
-
 ## Objective
 
 {{OBJECTIVE}}
@@ -34,11 +30,3 @@ filesTouch: {{FILES_TO_TOUCH}}
 ## Acceptance Criteria
 
 {{ACCEPTANCE_CRITERIA}}
-
-## Scope
-
-**In scope:**
-{{IN_SCOPE}}
-
-**Out of scope:**
-{{OUT_OF_SCOPE}}

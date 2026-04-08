@@ -93,15 +93,18 @@ For each approved task:
 - Read the full task contract file
 
 ### 5b. Dispatch
-- **Generate Prior Work Brief** before composing the subagent prompt:
+- **Generate Prior Work Brief** before composing the subagent prompt.
+  The subagent needs recent context and established patterns, not full milestone history.
   1. List all task files in the same milestone directory as the current task
-  2. Read each task file that has `status: completed` in its frontmatter
-  3. From each completed task, extract:
+  2. Identify task files that have `status: completed` in their frontmatter
+  3. Sort completed tasks by `updated` date in frontmatter (most recent first)
+  4. Read only the first 3 completed tasks (if fewer than 3 are completed, read all of them)
+  5. From each completed task, extract:
      - **Title** (from frontmatter or heading)
      - **Objective** (the task's stated goal)
      - **Files touched** (from `filesTouch` frontmatter)
      - **What was implemented** (from the contract's Instructions/Acceptance Criteria — do NOT re-read source files)
-  4. Compose a **"Prior Work Brief"** section using concise bullet points:
+  6. Compose a **"Prior Work Brief"** section using concise bullet points:
      ```
      ## Prior Work Brief
      - **<task-id>: <title>** — <one-line objective summary>
@@ -109,7 +112,7 @@ For each approved task:
        - Files: <list of files touched>
        - Patterns: <any architectural patterns established, if apparent>
      ```
-  5. **First-task edge case:** If no completed tasks exist in the milestone, use:
+  7. **First-task edge case:** If no completed tasks exist in the milestone, use:
      ```
      ## Prior Work Brief
      This is the first task in this milestone — no prior work to reference.
