@@ -1,8 +1,10 @@
 # Context Efficiency Hardening — Design Spec
 
 > Date: 2026-04-07
-> Status: Draft
+> Status: Superseded by v0.5.0 implementation and 2026-04-09-v060-efficiency-and-bridge.md
 > Scope: workflow-framework plugin v0.3.0
+>
+> **Note:** This spec was written for v0.3.0. Most changes were implemented in v0.5.0. Remaining items are covered by the v0.6.0 spec.
 
 ## Problem
 
