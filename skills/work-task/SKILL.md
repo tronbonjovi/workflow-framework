@@ -131,11 +131,12 @@ When a subagent completes:
 - Update task status to `review` (cascade update)
 
 ### 6b. Dispatch reviewer
-- Spin up a reviewer subagent to check:
-  - Did the implementation match the contract? (compliance)
-  - Do tests pass?
-  - Was anything built that wasn't requested? (scope creep)
-  - Code quality check
+Dispatch reviewer subagent with:
+- The task contract file (full content)
+- A git diff of changes since dispatch began (the implementation diff)
+- Test output (pass/fail results from the subagent's test run)
+
+Reviewer checks: contract compliance, tests pass, no scope creep, code quality.
 
 ### 6c. Review outcome
 - **Pass:** Mark task `completed` (cascade update). Report to user.
