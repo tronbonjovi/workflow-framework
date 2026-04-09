@@ -1,11 +1,11 @@
 {
-  "name": "claude-workflow",
+  "name": "workflow-framework",
   "version": "0.5.0",
   "type": "module",
   "description": "File-based development workflow system for Claude Code — roadmaps, milestones, and task contracts",
   "author": "tronbonjovi",
   "license": "MIT",
-  "repository": "https://github.com/tronbonjovi/claude-workflow",
+  "repository": "https://github.com/tronbonjovi/workflow-framework",
   "keywords": [
     "skills",
     "workflow",
@@ -28,7 +28,7 @@
     {
       "name": "adopt-project",
       "path": "skills/adopt-project/SKILL.md",
-      "description": "Use when bringing an existing, in-progress project into the claude-workflow system — scans the repo, identifies planning artifacts, then bootstraps the workflow structure"
+      "description": "Use when bringing an existing, in-progress project into the workflow-framework system — scans the repo, identifies planning artifacts, then bootstraps the workflow structure"
     },
     {
       "name": "setup-roadmap",

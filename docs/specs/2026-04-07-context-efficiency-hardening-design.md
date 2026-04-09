@@ -2,7 +2,7 @@
 
 > Date: 2026-04-07
 > Status: Draft
-> Scope: claude-workflow plugin v0.3.0
+> Scope: workflow-framework plugin v0.3.0
 
 ## Problem
 

@@ -1,8 +1,12 @@
-# claude-workflow
+# workflow-framework
 
-A file-based development workflow plugin for Claude Code. Turns brainstorming sessions into structured roadmaps, milestones, and AI-executable task contracts.
+A file-based development workflow system for AI-assisted coding. Turns brainstorming sessions into structured roadmaps, milestones, and AI-executable task contracts.
+
+Currently built as a Claude Code plugin. Future roadmap includes support for additional AI agents and providers.
 
 ## What It Does
+
+Provides a structured development lifecycle — from capturing ideas to dispatching work to AI subagents — using plain markdown files as the source of truth.
 
 | Skill | Purpose |
 |-------|---------|
@@ -18,11 +22,11 @@ Internal (not user-invoked):
 
 | Skill | Purpose |
 |-------|---------|
-| **update-task** | Cascade status updates through task → TASK.md → MILESTONE.md |
+| **update-task** | Cascade status updates through task -> TASK.md -> MILESTONE.md |
 
 ## How It Works
 
-The plugin creates a `.claude/roadmap/` directory in your project with:
+The system creates a `.claude/roadmap/` directory in your project:
 
 ```
 .claude/roadmap/
@@ -40,7 +44,7 @@ The plugin creates a `.claude/roadmap/` directory in your project with:
 
 ### Task Contracts
 
-Tasks are contracts designed for Claude Code subagents to execute autonomously. Standard contracts contain:
+Tasks are contracts designed for AI subagents to execute autonomously. Standard contracts contain:
 
 - **Objective** — What the subagent should deliver
 - **Instructions** — Step-by-step implementation guidance
@@ -60,41 +64,50 @@ The orchestrator (`work-task`) reads the task graph, understands phase ordering,
 5. Cascades status updates across all index files
 6. Presents the next options
 
-**Co-pilot, not autopilot.** You make the decisions — what to work on, how many in parallel, when to pause. Claude handles execution and bookkeeping.
+**Co-pilot, not autopilot.** You make the decisions — what to work on, how many in parallel, when to pause. The AI handles execution and bookkeeping.
 
 ### Statuses
 
-**Tasks:** `pending` → `in_progress` → `review` → `completed` (also: `blocked`, `cancelled`)
+**Tasks:** `pending` -> `in_progress` -> `review` -> `completed` (also: `blocked`, `cancelled`)
 
-**Milestones:** `planned` (on roadmap, no tasks yet) → `pending` (tasks defined) → derived from task statuses. Manual override available via `status_override`.
+**Milestones:** `planned` (on roadmap, no tasks yet) -> `pending` (tasks defined) -> derived from task statuses. Manual override available via `status_override`.
 
 **Roadmap:** `active`, `paused`, `completed`, `archived`
 
 ## Installation
 
 ```bash
-# From local path
+# Add the marketplace and install
 claude plugin marketplace add <path-to-plugin>
-claude plugin install claude-workflow
+claude plugin install workflow-framework
 
 # To update after changes
-claude plugin uninstall claude-workflow
-claude plugin marketplace update claude-workflow-dev
-claude plugin install claude-workflow
+claude plugin uninstall workflow-framework
+claude plugin marketplace update workflow-framework-dev
+claude plugin install workflow-framework
 ```
 
-## Workflow
+## Quick Start
 
-1. **`/draft`** — capture ideas as they come, no ceremony
-2. **`/adopt-project`** — onboard an existing project (or brainstorm freely for new ones)
-3. **`/build-roadmap`** — formalize drafts into structured roadmap (additive by default, with checkpoints)
-4. **`/work-task`** — see status and dispatch subagents for task execution
-5. **`/status`** — progress dashboard + ROADMAP.md sync
-6. **`/update-roadmap`** — adjust after new brainstorming or direction changes
+```
+/draft          — capture an idea
+/setup-roadmap  — initialize the workflow structure
+/build-roadmap  — formalize drafts into milestones and task contracts
+/work-task      — dispatch subagents to execute tasks
+/status         — check progress
+```
+
+See [docs/guide.md](docs/guide.md) for a full usage walkthrough.
 
 ## Compatibility
 
 Designed for integration with [agent-cc](https://github.com/tronbonjovi/agent-cc). Task files use YAML frontmatter compatible with agent-cc's task parsing and Kanban board. Status updates cascade across all index files, so agent-cc's file watcher sees changes in real-time.
+
+## Future
+
+- Support for additional AI agent providers beyond Claude Code
+- Deeper agent-cc integration for cross-session workflow tracking
+- Workflow templates for common project types
 
 ## License
 

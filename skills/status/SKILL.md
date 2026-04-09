@@ -206,7 +206,7 @@ If no drafts exist, omit this section.
 For a project with 2 active milestones, 3 tasks total, 1 completed task, and 1 archived milestone:
 
 ```
-== CLAUDE-WORKFLOW ==
+== WORKFLOW-FRAMEWORK ==
 Enhance the plugin with smarter orchestration and better visibility.
 
 Milestones

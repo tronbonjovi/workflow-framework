@@ -1,12 +1,12 @@
 {
-  "name": "claude-workflow",
+  "name": "workflow-framework",
   "description": "File-based development workflow: roadmaps, milestones, and task contracts for structured project execution",
   "version": "0.5.0",
   "author": {
     "name": "tronbonjovi"
   },
-  "homepage": "https://github.com/tronbonjovi/claude-workflow",
-  "repository": "https://github.com/tronbonjovi/claude-workflow",
+  "homepage": "https://github.com/tronbonjovi/workflow-framework",
+  "repository": "https://github.com/tronbonjovi/workflow-framework",
   "license": "MIT",
   "keywords": [
     "workflow",

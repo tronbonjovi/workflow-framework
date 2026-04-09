@@ -1,11 +1,11 @@
 ---
 name: adopt-project
-description: Use when bringing an existing, in-progress project into the claude-workflow system — scans the repo, identifies planning artifacts and project state, then bootstraps the workflow structure
+description: Use when bringing an existing, in-progress project into the workflow-framework system — scans the repo, identifies planning artifacts and project state, then bootstraps the workflow structure
 ---
 
 # Adopt Project
 
-Onboard an existing project into the claude-workflow system. Scans the repo, presents findings, then bootstraps the roadmap structure with existing planning artifacts as input.
+Onboard an existing project into the workflow-framework system. Scans the repo, presents findings, then bootstraps the roadmap structure with existing planning artifacts as input.
 
 **Safety first.** Read-only during discovery. Copies files to drafts — never moves or modifies originals. All file creation requires user approval.
 
