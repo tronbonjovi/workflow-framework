@@ -7,8 +7,6 @@ description: Use when you have brainstorm drafts or informal plans and want to f
 
 Transform informal brainstorming outputs into a formal, structured roadmap with milestones and AI-executable task contracts.
 
-**This is a conversational skill, not a generator.** It follows a deliberate cadence — asking questions, proposing groupings, and confirming intent at each step. The drafts are input context, not marching orders.
-
 ## When to Use
 
 - After brainstorming sessions that produced rough plans

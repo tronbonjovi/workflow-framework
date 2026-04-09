@@ -5,8 +5,6 @@ description: Use when the user wants to work on tasks, check project status, or 
 
 # Work Task
 
-**Co-pilot, not autopilot.** Present options and wait for the user to decide. Never auto-dispatch work.
-
 ## When to Use
 
 - User says "what's next?", "work the next task", "let's keep going", "status?", "continue"
