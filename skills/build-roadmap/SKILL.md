@@ -29,34 +29,68 @@ Transform informal brainstorming outputs into a formal, structured roadmap with 
 5. If multiple drafts exist, let the user choose: "I see N drafts. Which ones should we work with this session?" List them. Accept "all" or specific selections.
 6. Check if MILESTONE.md has milestones with no task breakdown (status `planned`). If so, offer to resume: "**<name>** has no task breakdown yet. Want to define tasks for it?"
 
-## Process
+## Step 1: Read and Summarize
 
-Read the detailed process prompt from `build-roadmap-prompt.md` in this skill's directory and follow it exactly.
+Read all input sources. Present a summary to the user covering:
+- **Key themes** — main ideas, features, and goals identified
+- **Potential scope** — your sense of how big the work is
+- **Questions** — anything unclear or contradictory in the drafts
 
-The high-level flow:
+Ask: "Does this capture it, or am I missing something?" Wait for response and adjust understanding.
 
-1. **Read & summarize** — Read all draft/spec files. Present a summary.
-2. **Propose milestones** — Suggest milestone groupings one at a time. Confirm each.
-3. **Break down tasks as contracts** — For each milestone, propose tasks with specific instructions, files to touch, tests to write. These are execution contracts for subagents, not descriptions.
-4. **Plan sequencing** — Propose phases, ordering, dependencies, parallel opportunities, batching candidates.
-5. **Generate files** — Once everything is agreed, create all files at once.
+## Step 2: Propose Milestones
 
-## Critical: Task Contracts Must Be AI-Executable
+Propose milestones **one at a time**. For each, confirm:
+- The name (lowercase, hyphenated — this becomes the directory name)
+- The description
+- What it achieves (the "point of culmination")
 
-Task files are dispatch payloads for Claude Code subagents. Each contract must contain:
-- **Instructions** specific enough that a subagent can execute without asking questions
-- **Files to touch** — explicit list of files to create or modify
-- **Tests** — specific test cases to write (TDD: tests first, then implementation)
-- **Acceptance criteria** — verifiable checklist
+After all milestones are identified, present the full ordered list and confirm: "Does this order make sense? Should any be reordered, combined, or split?"
 
-If a task can't be written this prescriptively, it's either too vague (needs more brainstorming) or too large (needs to be split).
+**Checkpoint — Milestones Complete:** After the milestone list is confirmed, offer:
+1. **Write milestones now** and stop — come back later to define tasks.
+2. **Continue to task breakdown.**
 
-## Naming Convention
+If stopping: write milestones to ROADMAP.md (Active Milestones table) and MILESTONE.md with status `planned`. No task files. Report what was written and stop.
 
-Task files MUST follow: `<milestone-name>-task<NNN>.md`
-- Example: `auth-task001.md`, `auth-task002.md`
-- Sequential numbering starting at 001 within each milestone
-- The filename is an ID. The human-readable title lives in frontmatter.
+## Step 3: Break Down Tasks as Contracts
+
+For each milestone, propose tasks. Present each as: title, one-line description, standard/complex, files touched. Confirm the task list before writing full contracts.
+
+After confirmation, write out the full contract for each task. Confirm each: "Does this task contract capture what you want? Anything to adjust?"
+
+Task files are dispatch payloads for Claude Code subagents. Each must contain enough detail that a subagent can execute without asking questions. If a task can't be written this prescriptively, it's too vague (needs brainstorming) or too large (needs splitting).
+
+**Standard tasks** — sections: Objective, Instructions, Tests, Acceptance Criteria.
+
+**Complex tasks** — add: Context, Technical Approach, Scope, Risk Notes.
+
+**All tasks** also specify: Files to touch (explicit list), parallel-safe (yes/no).
+
+**Naming:** `<milestone-name>-task<NNN>.md` — sequential numbering starting at 001 within each milestone. The filename is an ID; the human-readable title lives in frontmatter.
+
+**Checkpoint — Between Milestones:** After completing task breakdown for a milestone, if more remain, ask: "Move on to **<next-milestone>**, or stop here?" If stopping: write everything confirmed so far — milestones with tasks get status `pending`, remaining stay `planned`. Report and stop.
+
+## Step 4: Plan Sequencing
+
+Once all milestones and tasks are confirmed, propose the phase/execution plan:
+
+- **Phase groupings** — which tasks go in each phase and why
+- **Dependencies** — which tasks block others, with rationale
+- **Parallel opportunities** — tasks that touch different files with no dependencies and can run simultaneously
+- **Batching candidates** — sequential, simple tasks that one subagent could handle in a single session
+
+Adjust based on feedback.
+
+## Step 5: Generate Files
+
+Once everything is confirmed, generate all files at once:
+
+1. **ROADMAP.md** — vision, goals, `sources:` list, `milestones:` list, Active Milestones table (`pending` if tasks defined, `planned` if not).
+2. **MILESTONE.md** — section per milestone: description, directory, task list, created date, status_override: null.
+3. **Milestone directories** — `.claude/roadmap/<milestone-name>/` for each.
+4. **Task files** — use `templates/task-standard.md` or `templates/task-complex.md` from the plugin's root `templates/` directory. Replace all `{{PLACEHOLDER}}` values. Set `dependsOn`, `phase`, `parallelSafe`, `filesTouch`.
+5. **TASK.md** — phase sections with tables (Task ID, Milestone, Status, Dependencies, Complexity, Parallel-Safe). Include parallelism and batching notes.
 
 ## Completion
 
